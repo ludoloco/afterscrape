@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Metadata</h1>
+
+{% if error%}<br><span class="error">{{ error }}</span><br><br>{% endif %}
+
+<div class="metadata  systems">
+  <span class="title">systems</span>
+  <div class="list">
+    <ul>
+      {% for system in system_array %}
+      <li><a href="?system={{ system['name'] }}" {% if system['name'] == get_system %} class="selected" {% endif %}>{{ system['name'] }}</a>{% if system['num_files'] > 0 %}<span class="num_files">({{ system['num_files'] }})</span>{% endif %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% if get_system %}
+<div class="metadata  games">
+  <span class="title">romfiles: {{ get_system }}</span>
+  <div class="list">
+    {% if newgamefiles %}
+
+    <table cellspacing="0">
+
+      <tr>
+        <th class="first_th">name</th>
+        <th>xml</th>
+        <th>image</th>
+        <th>video</th>
+        <th>edit</th>
+      </tr>
+
+      {% for gamefile in newgamefiles %}
+      <tr>
+        <td class="gamename">
+          {% if gamefile['tag_name'] %}
+          <li><a href="?system={{ get_system }}&game={{ gamefile['xml_row'] }}" {% if gamefile['xml_row'] == get_game %} class="selected" {% endif %}>{{ gamefile['tag_name'] }}</a></li>
+          {% else %}
+          <li><a href="?system={{ get_system }}&game={{ gamefile['xml_row'] }}" {% if gamefile['xml_row'] == get_game %} class="selected" {% endif %}>{{ gamefile['tag_path'][2:] }}</a></li>
+          {% endif %}
+        </td>
+        <td class="checkmedia">{% if gamefile['tag_xml'] == True %}<span class="tag_yes">V</span>{% else %}<span class="tag_no">X</span>{% endif %}</td>
+        <td class="checkmedia">{% if gamefile['tag_image'] %}<span class="tag_yes">V</span>{% else %}<span class="tag_no">X</span>{% endif %}</td>
+        <td class="checkmedia">{% if gamefile['tag_video'] %}<span class="tag_yes">V</span>{% else %}<span class="tag_no">X</span>{% endif %}</td>
+        <td class="checkmedia"><a href="/edit/{{ get_system }}?game={{ gamefile['xml_row'] }}">edit</a></td>
+      </tr>
+      {% endfor %}
+
+    </table>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+
+{% if game %}
+<div class="metadata  gameinfo">
+  <span class="title">{% if game['tag_name'] %}{{ game['tag_name'] }}{% else %}{{ game['tag_path'] }}{% endif %}</span>
+  <div class="inner">
+
+
+    <table class="tags">
+      <tr>
+
+        <td width="50%" valign="top">
+
+          <div class="generaltags">
+            <table>
+              <tr>
+                <td width="100px">id:</td>
+                <td>{% if game['tag_id'] %} {{ game['tag_id'] }} {% endif %}</td>
+              </tr>
+              <tr>
+                <td>source:</td>
+                <td>{% if game['tag_source'] %} {{ game['tag_source'] }} {% endif %}</td>
+              </tr>
+              <tr>
+                <td>path:</td>
+                <td>{% if game['tag_path'] %} {{ game['tag_path'] }} {% endif %}</td>
+              </tr>
+              <tr>
+                <td>rating:</td>
+                <td>{% if game['tag_rating'] %} {{ game['tag_rating'] }} {% endif %}</td>
+              </tr>
+              <tr>
+                <td>release date:</td>
+                <td>{% if game['tag_releasedate'] %} {{ game['tag_releasedate'] }} {% endif %}</td>
+              </tr>
+              <tr>
+                <td>developer:</td>
+                <td>{% if game['tag_developer'] %} {{ game['tag_developer'] }} {% endif %}</td>
+              </tr>
+              <tr>
+                <td>publisher:</td>
+                <td>{% if game['tag_publisher'] %} {{ game['tag_publisher'] }} {% endif %}</td>
+              </tr>
+              <tr>
+                <td>genre:</td>
+                <td>{% if game['tag_genre'] %} {{ game['tag_genre'] }} {% endif %}</td>
+              </tr>
+              <tr>
+                <td>players:</td>
+                <td>{% if game['tag_players'] %} {{ game['tag_players'] }} {% endif %}</td>
+              </tr>
+            </table>
+          </div>
+
+        </td>
+
+        <td width="25%" align="center">
+          {% if game['tag_image'] %}
+          <img class="game_media" src="/images/{{ game['tag_image'][9:] }}?system={{ get_system }}"></img>
+          {% endif %}
+        </td>
+
+        <td width="25%" align="center">
+          {% if game['tag_video'] %}
+          <video class="game_media" controls autoplay muted>
+            <source src="/images/{{ game['tag_video'][9:] }}?system={{ get_system }}" type="video/mp4">
+          Your browser does not support the video tag.
+          </video>
+          {% endif %}
+        </td>
+
+      </tr>
+      {% if game['tag_desc'] %}
+      <tr>
+        <td colspan="3">
+          <div class="desc">
+            {{ game['tag_desc'] }}
+          </div>
+        </td>
+      </tr>
+      {% endif %}
+    </table>
+
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

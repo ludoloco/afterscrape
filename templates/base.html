@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href='/static/style.css' />
+
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Afterscrape - unknown page</title>
+    {% endif %}
+  </head>
+  <body>
+    <div id="wrapper">
+    <div class="menu">
+      <a href="/" {% if shorttitle == "home" %}class="selected"{% endif %}>home</a> -
+      <a href="/metadata" {% if shorttitle == "data" %}class="selected"{% endif %}>metadata</a> -
+      <a href="/settings" {% if shorttitle == "settings" %}class="selected"{% endif %}>settings</a>
+      <hr>
+    </div>
+    {% block content %}{% endblock %}
+  </div>
+  </body>
+</html>

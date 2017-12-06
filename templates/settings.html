@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Settings</h1>
+
+<form action="/form" method="post">
+  <input type="hidden" name="post_form_name" value="server">
+
+  <div class="section">
+    <table class="settings">
+      <tr>
+        <th colspan="3" align="left">server</th>
+      </tr>
+      <tr>
+        <td width="100px"><li>ip</li></td>
+        <td width="100px"><input type="hidden" name="post_server_ip" value="{{ current_server_ip }}">{{ current_server_ip }}</td>
+        <td><span class="note">#default 0.0.0.0 - listen on all ip addresses (change manualy in config.ini)(requires restart)</span></td>
+      </tr>
+      <tr>
+        <td><li>port</li></td>
+        <td><input type="hidden" name="post_server_port" value="{{ current_server_port }}">{{ current_server_port }}</td>
+        <td><span class="note">#default 5000 - ports below 1024 requires root (i.e. sudo)(change manualy in config.ini)(requires restart)</span></td>
+      </tr>
+      <tr>
+        <td><li>debug</li></td>
+        <td><input type="checkbox" name="post_server_debug" value="True" {% if current_server_debug == 'True' %}checked{% endif %}></td>
+        <td><span class="note">#default False - when True debug will auto restart server on file changes</span></td>
+      </tr>
+      <tr>
+        <td><li>threaded</li></td>
+        <td><input type="checkbox" name="post_server_threaded" value="True" {% if current_server_threaded == 'True' %}checked{% endif %}></td>
+        <td><span class="note">#default True - while True requests are each handled in a new thread. </span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <table class="settings">
+      <tr>
+        <th colspan="3" align="left">metadata</th>
+      </tr>
+      <tr>
+        <td width="100px"><li>roms path</li></td>
+        <td><input type="text" name="post_md_romspath" value="{{ current_md_romspath }}" size="50"></td>
+        <td><span class="note">#set roms path (default: /home/pi/RetroPie/roms)</span></td>
+      </tr>
+      <tr>
+        <td><li>xml path</li></td>
+        <td><input type="text" name="post_md_xmlpath" value="{{ current_md_xmlpath }}" size="50"></td>
+        <td><span class="note">#set gamelist.xml path (default: /home/pi/.emulationstation/gamelists)</span></td>
+      </tr>
+      <tr>
+        <td><li>image path</li></td>
+        <td><input type="text" name="post_md_imgpath" value="{{ current_md_imgpath }}" size="50"></td>
+        <td><span class="note">#set images/videos path (default: /home/pi/.emulationstation/downloaded_images)</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <input type="submit" value="Submit">
+  </div>
+
+</form>
+{% endblock %}

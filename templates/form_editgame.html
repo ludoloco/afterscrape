@@ -1,0 +1,24 @@
+<html>
+<head>
+<meta http-equiv="refresh" content="2;url=/edit?system={{system}}&game={{game}}" />
+<script type="application/x-javascript">
+var timeleft = 2;
+var downloadTimer = setInterval(function(){
+  document.getElementById("progressBar").value = 2 - --timeleft;
+  document.getElementById("countdowntimer").textContent = timeleft;
+  if(timeleft <= 0)
+    clearInterval(downloadTimer);
+},1000);
+</script>
+</head>
+<body><br><br>
+<div style="width: 400px; position: relative; display: block; margin:auto">
+<center><h3>Form sent</h3>
+<br>
+thank you, return in <span id="countdowntimer">2 </span> secs
+<br><br>
+<progress value="0" max="2" id="progressBar"></progress>
+</center>
+</div>
+</body>
+</html>

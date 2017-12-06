@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Edit game: {% if gameinfo['tag_name'] %}{{ gameinfo['tag_name'] }}{% else %}{{ gameinfo['tag_path'] }}{% endif %}</h1>
+
+<form action="/form_editgame" method="post">
+  <input type="hidden" name="post_system" value="{{ gameinfo['xml_system']  }}">
+  <input type="hidden" name="tag_path" value="{{ gameinfo['tag_path']  }}">
+  <input type="hidden" name="post_game" value="{{ gameinfo['xml_row']  }}">
+{% if gameinfo %}
+<div class="metadata  gameinfo">
+  <div class="inner">
+
+
+    <table class="tags">
+      <tr>
+
+        <td width="50%" valign="top">
+
+          <div class="generaltags">
+            <table>
+              <tr>
+                <td>data source:</td>
+                <td>
+                  {% if gameinfo['tag_source'] %}{{ gameinfo['tag_source'] }}{% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td>source id:</td>
+                <td>
+                  {% if gameinfo['tag_id'] %}{{ gameinfo['tag_id'] }}{% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td>path:</td>
+                <td>{% if gameinfo['tag_path'] %}{{ gameinfo['tag_path'] }}{% endif %}</td>
+              </tr>
+              <tr height="20px;">
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td width="150px">name:</td>
+                <td>
+                  <input type="text" name="tag_name" value="{% if gameinfo['tag_name'] %}{{ gameinfo['tag_name'] }}{% endif %}" size="50">
+                </td>
+              </tr>
+              <tr>
+                <td>rating:</td>
+                <td>
+                  <input type="number" name="tag_rating" value="{% if gameinfo['tag_rating'] %}{{ gameinfo['tag_rating'] }}{% endif %}" step="0.1" min="0" max="1">
+                </td>
+              </tr>
+              <tr>
+                <td>release date:</td>
+                <td>
+                  <input type="date" name="tag_releasedate" value="{% if gameinfo['tag_releasedate'] %}{{ gameinfo['tag_releasedate'] }}{% endif %}">
+
+                </td>
+              </tr>
+              <tr>
+                <td>developer:</td>
+                <td>
+                  <input type="text" name="tag_developer" value="{% if gameinfo['tag_developer'] %}{{ gameinfo['tag_developer'] }}{% endif %}" size="50">
+                  </td>
+              </tr>
+              <tr>
+                <td>publisher:</td>
+                <td>
+                  <input type="text" name="tag_publisher" value="{% if gameinfo['tag_publisher'] %}{{ gameinfo['tag_publisher'] }}{% endif %}" size="50">
+                </td>
+              </tr>
+              <tr>
+                <td>genre:</td>
+                <td>
+                  <input type="text" name="tag_genre" value="{% if gameinfo['tag_genre'] %}{{ gameinfo['tag_genre'] }}{% endif %}" size="50">
+                </td>
+              </tr>
+              <tr>
+                <td>players:</td>
+                <td>
+                  <input type="number" name="tag_players" value="{% if gameinfo['tag_players'] %}{{ gameinfo['tag_players'] }}{% endif %}" step="1" min="1" max="8">
+                </td>
+              </tr>
+            </table>
+          </div>
+
+        </td>
+
+
+      </tr>
+      {% if gameinfo['tag_desc'] %}
+      <tr>
+        <td colspan="3">
+          <div >
+            <textarea name="tag_desc" class="desc_area">{{ gameinfo['tag_desc'] }}</textarea>
+          </div>
+        </td>
+      </tr>
+      {% endif %}
+      <tr>
+      <td align="center">
+        {% if gameinfo['tag_image'] %}
+        <div class="game_media">
+        <img src="/images/{{ gameinfo['tag_image'][9:] }}?system={{ gameinfo['xml_system'] }}"></img>
+      </div>
+      <div class="game_media_info">
+        <table>
+          <tr>
+            <td>path:</td>
+            <td>{{ gameinfo['tag_image'] }}</td>
+          </tr>
+          <tr height="20px">
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>upload new:</td>
+            <td><input type=file name=file></td>
+          </tr>
+        </table>
+      </div>
+        {% endif %}
+      </td>
+</tr>
+<tr>
+      <td align="center">
+        {% if gameinfo['tag_video'] %}
+        <div class="game_media">
+
+        <video class="game_media" controls autoplay muted loop>
+          <source src="/images/{{ gameinfo['tag_video'][9:] }}?system={{ gameinfo['xml_system'] }}" type="video/mp4">
+        Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="game_media_info">
+        <table>
+          <tr>
+            <td>path:</td>
+            <td>{{ gameinfo['tag_video'] }}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+
+        {% endif %}
+      </td>
+    </tr>
+
+    </table>
+
+  </div>
+</div>
+{% endif %}
+<input type="submit" value="Save" id="edit_submit_button">
+</form>
+{% endblock %}
